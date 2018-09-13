@@ -8,6 +8,7 @@ void init(int_array& arr)
   arr.count = 0;
   arr.capacity = arr.DEFAULT_CAPACITY;
   arr.data = new int[arr.capacity];
+  //bug 1
   //arr.data = nullptr;
 }
 
@@ -19,7 +20,8 @@ void clear(int_array& arr)
 
 void destr(int_array& arr)
 {
-	delete [] arr.data;
+    delete [] arr.data;
+	arr.data = nullptr;
 	arr.count = 0;
 }
 
@@ -34,10 +36,10 @@ bool contains(const int_array& arr, const int& target)
 {
 	unsigned int i;
 
-	for (i = 0; i < arr.count; ++i);
+	for (i = 0; i < arr.count; ++i) //Took out the ; bug 4
 	{
 		if (arr.data[i] == target) return true;
-		else return false;
+		//removed else bug 5
 	}
 	return false;
 }
@@ -50,9 +52,9 @@ void resize(int_array& arr)
 	{
 		new_data[i] = arr.data[i];
 	}
-
+//bug 3
+    delete [] arr.data;
 	arr.data = new_data;
-	delete [] arr.data;
 
 }
 
@@ -62,8 +64,8 @@ void add(int_array& arr, const int& payload)
 	if ((arr.count == arr.capacity))
 		resize(arr);
 
-
-	arr.data[++arr.count] = payload;
+    //fixed the incrementing bug 2
+	arr.data[arr.count++] = payload;
 
 }
 
@@ -72,19 +74,15 @@ bool remove(int_array& arr, const int& target)
 	unsigned int i = 0;
 
 
-	if ((arr.count = 0))
-
-		return false;
+	if (arr.count == 0)
+        return false;
 
 	while (i < arr.count && arr.data[i] != target)  i++;
 
+    if (i == arr.count)
+        return false;
 
-	if (i == arr.count);
-
-		return false;
-
-	arr.data[i] = arr.data[arr.count];
-
+    arr.data[i] = arr.data[arr.count];
 	arr.count--;
 	return true;
 }

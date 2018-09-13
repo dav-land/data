@@ -6,15 +6,15 @@
 # on Ubuntu, the .exe suffix disappears
 EXPENDABLES = test_int_array.o test_int_array terrible_dynamic_size_array_unsorted.o
 
-# make all is listed first, which lets you type "make" to recompile 
-# anything that has changed in either your class, your test code, 
+# make all is listed first, which lets you type "make" to recompile
+# anything that has changed in either your class, your test code,
 # or my test code.
 all:
 	@make $(EXPENDABLES)
 
 # this links your test program and your terrible_dynamic_size_array_unsorted class together
 test_int_array: test_int_array.o terrible_dynamic_size_array_unsorted.o
-	g++ -std=c++11 -Wall -g test_int_array.o terrible_dynamic_size_array_unsorted.o -o test_int_array 
+	g++ -std=c++11 -Wall -g test_int_array.o terrible_dynamic_size_array_unsorted.o -o test_int_array
 
 # this compiles your array code (object file)
 terrible_dynamic_size_array_unsorted.o: terrible_dynamic_size_array_unsorted.cpp terrible_dynamic_size_array_unsorted.h
