@@ -18,8 +18,8 @@ using namespace std;
 // struct to store word + count combinations
 struct wordItem
 {
-    string word;
-    int count;
+	string word;
+	int count;
 };
 
 void getStopWords(const char *ignoreWordFileName, vector<string> &_vecIgnoreWords);
@@ -32,8 +32,6 @@ void arraySort(wordItem list[], int length);
 
 void printTopN(wordItem wordItemList[], int topN);
 
-void resizeArray(wordItem *list[]);
-
 const int STOPWORD_LIST_SIZE = 50;
 
 const int INITIAL_ARRAY_SIZE = 100;
@@ -41,51 +39,91 @@ const int INITIAL_ARRAY_SIZE = 100;
 // ./a.out 10 HW2-HungerGames_edit.txt HW2-ignoreWords.txt
 int main(int argc, char *argv[])
 {
-    vector<string> vecIgnoreWords(STOPWORD_LIST_SIZE);
-		wordItem list[INITIAL_ARRAY_SIZE];
+	vector<string> vecIgnoreWords(STOPWORD_LIST_SIZE);
+	wordItem * list = new wordItem[INITIAL_ARRAY_SIZE];
+	int size = INITIAL_ARRAY_SIZE, length = 0, numTimesDoubled = 0;
 
-    // verify we have the correct # of parameters, else throw error msg & return
-    if (argc != 4)
-    {
-        cout << "Usage: ";
-        cout << argv[0] << " <number of words> <filename.txt> <ignorefilename.txt>";
-        cout << endl;
-        return 0;
-    }
+	// verify we have the correct # of parameters, else throw error msg & return
+	if (argc != 4)
+	{
+		cout << "Usage: ";
+		cout << argv[0] << " <number of words> <filename.txt> <ignorefilename.txt>";
+		cout << endl;
+		return 0;
+	}
 
-	 	int numWordsToProcess = stoi(argv[1]);
-		string fileToProcess = argv[2];
-    getStopWords(argv[3], vecIgnoreWords);
+	int numWordsToProcess = stoi(argv[1]);
+	string fileToProcess = argv[2];
+	getStopWords(argv[3], vecIgnoreWords);
+	
+	ifstream inFile;
+	string data, word;
 
-		ifstream inFile;
-		string data, word;
+	cout << "Opening File: " << fileToProcess << endl;
+	inFile.open(fileToProcess);
 
-		cout << "Opening File: " << fileToProcess << endl;
-		inFile.open(fileToProcess);
-
-		if (inFile.is_open())
+	if (inFile.is_open())
+	{
+		cout << "Opened successfully!" << endl;
+		while(getline(inFile, data))
 		{
-			cout << "Opened successfully!" << endl;
-			while(getline(inFile, data))
+			stringstream ss(data);
+			while(getline(ss,word,' '))
 			{
-				stringstream ss(data);
-				ss >> word;
 				if(!isStopWord(word, vecIgnoreWords))
 				{
+					if(length == size)
+					{
+						wordItem * temp;
+						temp = list;
+						list = new wordItem[size * 2];
 
+						for(int k = 0; k < size; k++)
+						{
+							list[k] = temp[k];
+						}
+
+						delete [] temp;
+						size *= 2;
+						numTimesDoubled ++;
+					}
+
+					bool found = false;
+					for(int i = 0; i < length && !found; i ++)
+					{
+						if(word == list[i].word)
+						{
+							list[i].count = list[i].count + 1;
+							found = true;
+						}
+					}
+
+					if(!found)
+					{
+						wordItem temp;
+						temp.word = word;
+						temp.count = 1;
+						list[length] = temp;
+						length ++;
+					}
 				}
 			}
-
-			inFile.close(); //close the file
-			cout << "Stop words succesfully read into _vecIgnoreWords" << endl;
-		}
-		else
-		{
-			cout << "File unsuccessfully opened!!" << endl;
-			return -1;
 		}
 
-    return 0;
+		inFile.close(); //close the file
+
+		arraySort(list, length);
+		printTopN(list, numWordsToProcess);
+
+		cout << "Numer of time doubled: " << numTimesDoubled << endl;
+	}
+	else
+	{
+		cout << "File unsuccessfully opened!!" << endl;
+		return -1;
+	}
+
+	return 0;
 }
 
 /**
@@ -101,19 +139,19 @@ void getStopWords(const char *ignoreWordFileName, vector<string> &_vecIgnoreWord
 	ifstream inFile;
 	string data, word;
 
-	cout << "Opening File: " << *ignoreWordFileName << endl;
+	cout << "Opening File: " << ignoreWordFileName << endl;
 	inFile.open(ignoreWordFileName);
 
-	if (inFile.is_open())
+	if(inFile.is_open())
 	{
 		cout << "Opened successfully!" << endl;
-		while(getline(inFile, data))
+		for(int i = 0; i < STOPWORD_LIST_SIZE; i ++)
 		{
+			getline(inFile, data);
 			stringstream ss(data);
 			ss >> word;
-			_vecIgnoreWords.push_back(word);
+			_vecIgnoreWords.at(i) = word;
 		}
-
 		inFile.close(); //close the file
 		cout << "Stop words succesfully read into _vecIgnoreWords" << endl;
 	}
@@ -137,7 +175,8 @@ bool isStopWord(string word, vector<string> &_vecIgnoreWords)
 {
 	for(int i = 0; i < STOPWORD_LIST_SIZE; i ++)
 	{
-		if(word == _vecIgnoreWords.at(i))
+		//cout << _vecIgnoreWords.at(i) << endl;
+		if(word == _vecIgnoreWords[i])
 		{
 			return true;
 		}
@@ -154,7 +193,12 @@ bool isStopWord(string word, vector<string> &_vecIgnoreWords)
 */
 int getTotalNumberNonStopWords(wordItem list[], int length)
 {
-    return 0;
+	int numWords = 0;
+	for(int i = 0; i < length; i ++)
+	{
+		numWords += list[i].count;
+	}
+	return numWords;
 }
 
 /**
@@ -165,7 +209,17 @@ int getTotalNumberNonStopWords(wordItem list[], int length)
 */
 void arraySort(wordItem list[], int length)
 {
-
+	int j,i;
+	wordItem key;
+	for(i = 1; i < length; i ++)
+	{
+		key = list[i];
+		for(j = i-1;j >= 0 && list[j].count < key.count; j--)
+		{
+			list[j+1] = list[j];
+		}
+		list[j+1] = key;
+	}
 }
 
 /**
@@ -177,11 +231,11 @@ void arraySort(wordItem list[], int length)
 */
 void printTopN(wordItem wordItemList[], int topN)
 {
-
-}
-
-void resizeArray(wordItem *list[])
-{
-	worditem * newList = new wordItem[2 * sizeof(*list)/sizeof(*list[0])];
-	
+	cout << "Top Words In List: " << endl;
+	wordItem topWordItemList[topN];
+	for(int i = 0; i < topN; i ++)
+	{
+		topWordItemList[i] = wordItemList[i];
+		cout << topWordItemList[i].word << " | " << topWordItemList[i].count << endl;
+	}
 }
