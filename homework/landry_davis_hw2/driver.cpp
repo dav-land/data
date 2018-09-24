@@ -1,7 +1,7 @@
 // ==========================================
 // Created: September 19, 2018
 // @Davis Landry
-//
+// Homework #2
 // Description: Counts unique words in a file
 // outputs the top N most common words
 // ==========================================
@@ -40,7 +40,7 @@ const int INITIAL_ARRAY_SIZE = 100;
 int main(int argc, char *argv[])
 {
 	vector<string> vecIgnoreWords(STOPWORD_LIST_SIZE);
-	wordItem * list = new wordItem[INITIAL_ARRAY_SIZE];
+	wordItem * list = new wordItem[INITIAL_ARRAY_SIZE]; //create a new array of word items
 	int size = INITIAL_ARRAY_SIZE, length = 0, numTimesDoubled = 0;
 
 	// verify we have the correct # of parameters, else throw error msg & return
@@ -52,70 +52,72 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	int numWordsToProcess = stoi(argv[1]);
+	int numWordsToProcess = stoi(argv[1]); //sets the top n words
 	string fileToProcess = argv[2];
-	getStopWords(argv[3], vecIgnoreWords);
-	
+	getStopWords(argv[3], vecIgnoreWords); //puts the stop words into the vecIgnoreWords vector
+
 	ifstream inFile;
 	string data, word;
 
 	cout << "Opening File: " << fileToProcess << endl;
-	inFile.open(fileToProcess);
+	inFile.open(fileToProcess); //open the file
 
 	if (inFile.is_open())
 	{
 		cout << "Opened successfully!" << endl;
-		while(getline(inFile, data))
+		while(inFile >> word)//gets every word in the file
 		{
-			stringstream ss(data);
-			while(getline(ss,word,' '))
+			if(!isStopWord(word, vecIgnoreWords)) //check to see if its a stop word
 			{
-				if(!isStopWord(word, vecIgnoreWords))
+				if(length == size) //Checks to see if array is full, if it is then it doubles the array
 				{
-					if(length == size)
+					wordItem * temp;
+					temp = list;
+					list = new wordItem[size * 2];
+
+					for(int k = 0; k < size; k++)
 					{
-						wordItem * temp;
-						temp = list;
-						list = new wordItem[size * 2];
-
-						for(int k = 0; k < size; k++)
-						{
-							list[k] = temp[k];
-						}
-
-						delete [] temp;
-						size *= 2;
-						numTimesDoubled ++;
+						list[k] = temp[k];
 					}
 
-					bool found = false;
-					for(int i = 0; i < length && !found; i ++)
+					delete [] temp;
+					size *= 2;
+					numTimesDoubled ++;
+				}
+				//checks to see if the word is already in array
+				bool found = false;
+				for(int i = 0; i < length && !found; i ++)
+				{
+					if(word == list[i].word)
 					{
-						if(word == list[i].word)
-						{
-							list[i].count = list[i].count + 1;
-							found = true;
-						}
+						list[i].count = list[i].count + 1;
+						found = true;
 					}
-
-					if(!found)
-					{
-						wordItem temp;
-						temp.word = word;
-						temp.count = 1;
-						list[length] = temp;
-						length ++;
-					}
+				}
+				//if not it adds the new word
+				if(!found)
+				{
+					wordItem temp;
+					temp.word = word;
+					temp.count = 1;
+					list[length] = temp;
+					length ++;
 				}
 			}
 		}
 
+
 		inFile.close(); //close the file
 
-		arraySort(list, length);
-		printTopN(list, numWordsToProcess);
+		arraySort(list, length); //sort the array
+		printTopN(list, numWordsToProcess); //print the top N numbers and words
 
-		cout << "Numer of time doubled: " << numTimesDoubled << endl;
+		cout << "#" << endl;
+		cout << "Array doubled: " << numTimesDoubled << endl;
+		cout << "#" << endl;
+		cout << "Unique non-stop words: " << length << endl;
+		cout << "#" << endl;
+		cout << "Total non-stop words: " << getTotalNumberNonStopWords(list, size) << endl;
 	}
 	else
 	{
@@ -236,6 +238,6 @@ void printTopN(wordItem wordItemList[], int topN)
 	for(int i = 0; i < topN; i ++)
 	{
 		topWordItemList[i] = wordItemList[i];
-		cout << topWordItemList[i].word << " | " << topWordItemList[i].count << endl;
+		cout << topWordItemList[i].count << " - " << topWordItemList[i].word << endl;
 	}
 }
