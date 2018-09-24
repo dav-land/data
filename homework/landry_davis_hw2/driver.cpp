@@ -59,12 +59,12 @@ int main(int argc, char *argv[])
 	ifstream inFile;
 	string data, word;
 
-	cout << "Opening File: " << fileToProcess << endl;
+	//cout << "Opening File: " << fileToProcess << endl;
 	inFile.open(fileToProcess); //open the file
 
 	if (inFile.is_open())
 	{
-		cout << "Opened successfully!" << endl;
+		//cout << "Opened successfully!" << endl;
 		while(inFile >> word)//gets every word in the file
 		{
 			if(!isStopWord(word, vecIgnoreWords)) //check to see if its a stop word
@@ -141,12 +141,12 @@ void getStopWords(const char *ignoreWordFileName, vector<string> &_vecIgnoreWord
 	ifstream inFile;
 	string data, word;
 
-	cout << "Opening File: " << ignoreWordFileName << endl;
+	//cout << "Opening File: " << ignoreWordFileName << endl;
 	inFile.open(ignoreWordFileName);
 
 	if(inFile.is_open())
 	{
-		cout << "Opened successfully!" << endl;
+		//cout << "Opened successfully!" << endl;
 		for(int i = 0; i < STOPWORD_LIST_SIZE; i ++)
 		{
 			getline(inFile, data);
@@ -155,11 +155,11 @@ void getStopWords(const char *ignoreWordFileName, vector<string> &_vecIgnoreWord
 			_vecIgnoreWords.at(i) = word;
 		}
 		inFile.close(); //close the file
-		cout << "Stop words succesfully read into _vecIgnoreWords" << endl;
+		//cout << "Stop words succesfully read into _vecIgnoreWords" << endl;
 	}
 	else
 	{
-		cout << "File unsuccessfully opened!!" << endl;
+		//cout << "File unsuccessfully opened!!" << endl;
 		return;
 	}
 
@@ -233,7 +233,6 @@ void arraySort(wordItem list[], int length)
 */
 void printTopN(wordItem wordItemList[], int topN)
 {
-	cout << "Top Words In List: " << endl;
 	wordItem topWordItemList[topN];
 	for(int i = 0; i < topN; i ++)
 	{
