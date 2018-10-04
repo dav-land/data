@@ -1,9 +1,9 @@
-/*=====================================================*
- * Filename:                                           *
- * Description:                                        *
- * Author:                                             *
- * Date:                                               *
- *=====================================================*/
+/*=============================================================*
+ * Filename: HW3-LinkedListNetwork.cpp                         *
+ * Description: Network of cities represented by Linked list   *
+ * Author: Davis Landry                                        *
+ * Date: 10/1/18                                               *
+ *=============================================================*/
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -216,6 +216,19 @@ void CityNetwork::printPath() {
     {
         cout << "nothing in path" << endl;
     }
+		else
+		{
+			while(ptr)
+			{
+				cout << ptr->name << " -> "
+				if(!ptr->next)
+				{
+					cout << "NULL" << endl;
+				}
+				ptr = ptr->next;
+			}
+		}
+
 
 
     cout << "===" << endl;
