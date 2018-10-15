@@ -1,9 +1,9 @@
 /*=============================================================*
- * Filename: HW3-LinkedListNetwork.cpp                         *
- * Description: Network of cities represented by Linked list   *
- * Author: Davis Landry                                        *
- * Date: 10/1/18                                               *
- *=============================================================*/
+* Filename: HW3-LinkedListNetwork.cpp                         *
+* Description: Network of cities represented by Linked list   *
+* Author: Davis Landry                                        *
+* Date: 10/1/18                                               *
+*=============================================================*/
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -13,30 +13,30 @@ using namespace std;
 
 struct city
 {
-    string  name;            // name of the city
-    city *  next;            // pointer to the next city
-    int     numberMessages;  // how many messages passed through this city
-    string  message;         // message we are sending accross
+	string  name;            // name of the city
+	city *  next;            // pointer to the next city
+	int     numberMessages;  // how many messages passed through this city
+	string  message;         // message we are sending accross
 };
 
 class CityNetwork {
-    private:
-        // pointer to head of linked list of cities
-        city* head;
-    public:
-        CityNetwork();
-        bool isEmpty();
-        /* NOTE: you will complete all the methods marked
-             'TODO'. Definitions are below. Careful with the
-              print statements, moodle expects the output to
-              match exactly. */
-        void addCity(city* previous, string cityName); // TODO
-        void deleteCity(string cityName);              // TODO
-        void loadDefaultSetup();                       // TODO
-        city* searchNetwork(string cityName);          // TODO
-        void deleteEntireNetwork();                    // TODO
-        void transmitMsg(string receiver, string msg); // TODO
-        void printPath();                              // TODO
+private:
+	// pointer to head of linked list of cities
+	city* head;
+public:
+	CityNetwork();
+	bool isEmpty();
+	/* NOTE: you will complete all the methods marked
+	'TODO'. Definitions are below. Careful with the
+	print statements, moodle expects the output to
+	match exactly. */
+	void addCity(city* previous, string cityName); // TODO
+	void deleteCity(string cityName);              // TODO
+	void loadDefaultSetup();                       // TODO
+	city* searchNetwork(string cityName);          // TODO
+	void deleteEntireNetwork();                    // TODO
+	void transmitMsg(string receiver, string msg); // TODO
+	void printPath();                              // TODO
 };
 
 // declarations for UI/menu helper-functions
@@ -46,28 +46,28 @@ void handleUserInput(CityNetwork& cityNet);
 /* Do NOT modify main function */
 int main(int argc, char* argv[])
 {
-    // Object representing our network of cities.
-    // (Linked list representation is in CityNetwork)
-    CityNetwork cityNet;
+	// Object representing our network of cities.
+	// (Linked list representation is in CityNetwork)
+	CityNetwork cityNet;
 
-    // this will loop until user selects quit option
-    handleUserInput(cityNet);
+	// this will loop until user selects quit option
+	handleUserInput(cityNet);
 
-    // quit: clean up.
-    cityNet.printPath();
-    cityNet.deleteEntireNetwork();
-    if (cityNet.isEmpty())
-    {
-        cout << "Path cleaned" << endl;
-    }
-    else
-    {
-        cout << "Error: Path NOT cleaned!" << endl;
-        cityNet.printPath();
-    }
+	// quit: clean up.
+	cityNet.printPath();
+	cityNet.deleteEntireNetwork();
+	if (cityNet.isEmpty())
+	{
+		cout << "Path cleaned" << endl;
+	}
+	else
+	{
+		cout << "Error: Path NOT cleaned!" << endl;
+		cityNet.printPath();
+	}
 
-    cout << "Goodbye!" << endl;
-    return 0;
+	cout << "Goodbye!" << endl;
+	return 0;
 }
 
 
@@ -80,158 +80,238 @@ int main(int argc, char* argv[])
 /***************************************************************/
 
 /*
- * Purpose: Constructer for empty linked list
- * @param none
- * @return none
- * Do not modify.
- */
+* Purpose: Constructer for empty linked list
+* @param none
+* @return none
+* Do not modify.
+*/
 CityNetwork::CityNetwork() {
-    /* finished! do not modify this function. */
-    head = NULL;
+	/* finished! do not modify this function. */
+	head = NULL;
 }
 
 /*
- * Purpose: Check if list is empty
- * @return true if empty; else false
- * Do not modify.
- */
+* Purpose: Check if list is empty
+* @return true if empty; else false
+* Do not modify.
+*/
 bool CityNetwork::isEmpty() {
-    /* finished! do not modify this function. */
-    return (head == NULL);
+	/* finished! do not modify this function. */
+	return (head == NULL);
 }
 
 /*
- * Purpose: Add a new city to the network
- *   between the city *previous and the city that follows it in the network.
- * @param previous name of the city that comes before the new city
- * @param cityName name of the new city
- * @return none
- */
+* Purpose: Add a new city to the network
+*   between the city *previous and the city that follows it in the network.
+* @param previous name of the city that comes before the new city
+* @param cityName name of the new city
+* @return none
+*/
 void CityNetwork::addCity(city* previous, string cityName) {
-    // TODO: implement this function
+	// TODO: implement this function
 
-    // required print statements:
-        // print the city name we're adding and city name we're following, e.g.
-        //cout << "adding: " << cityName << " (prev: " << previous->name << ")" << endl;
+	// required print statements:
+	// print the city name we're adding and city name we're following, e.g.
 
-        // if adding to front of list, instead print:
-        //cout << "adding: " << cityName << " (HEAD)" << endl;
+	// if adding to front of list, instead print:
+	city * temp = new city;
+	temp->name = cityName;
+	if(!previous)
+	{
+		temp->next = head;
+		head = temp;
+		cout << "adding: " << cityName << " (HEAD)" << endl;
+	}
+	else
+	{
+		cout << "adding: " << cityName << " (prev: " << previous->name << ")" << endl;
+		temp->next = previous->next;
+		previous->next = temp;
+	}
 
 }
 
 /*
- * Purpose: delete the city in the network with the specified name.
- * @param cityName name of the city to delete in the network
- * @return none
- */
+* Purpose: delete the city in the network with the specified name.
+* @param cityName name of the city to delete in the network
+* @return none
+*/
 void CityNetwork::deleteCity(string cityName) {
-    // TODO: implement this function.
-
-    // if the city dosn't exist, nothing we can do.
-    //         use this output statement
-        cout << "City does not exist." << endl;
-
+	// TODO: implement this function.
+	city * temp = new city;
+	city * prev = new city;
+	temp = prev = head;
+	if(cityName == temp->name)
+	{
+		head = head->next;
+		return;
+	}
+	else
+	{
+		temp = temp->next;
+	}
+	while(cityName != temp->name && temp)
+	{
+		prev = temp;
+		temp = temp->next;
+	}
+	if(temp)
+	{
+		temp = temp->next;
+		prev->next = temp;
+	}
+	else
+	{
+		// if the city dosn't exist, nothing we can do.
+		//         use this output statement
+		cout << "City does not exist." << endl;
+	}
 }
 
 /*
- * Purpose: populates the network with the predetermined cities
- * @param none
- * @return none
- */
+* Purpose: populates the network with the predetermined cities
+* @param none
+* @return none
+*/
 void CityNetwork::loadDefaultSetup() {
-    deleteEntireNetwork();
-    // TODO: implement this function: Add default network cities
-    // e.g., addCity(NULL, "Los Angeles");
-
+	if(head){
+		deleteEntireNetwork();
+	}
+	// TODO: implement this function: Add default network cities
+	// e.g., addCity(NULL, "Los Angeles");
+	addCity(NULL, "Los Angeles");
+	city * temp = head;
+	addCity(temp, "Phoenix");
+	temp = temp->next;
+	addCity(temp, "Denver");
+	temp = temp->next;
+	addCity(temp, "Dallas");
+	temp = temp->next;
+	addCity(temp, "Atlanta");
+	temp = temp->next;
+	addCity(temp, "New York");
+	temp = temp->next;
 }
 
 /*
- * Purpose: Search the network for the specified city and return a pointer to that node
- * @param cityName name of the city to look for in network
- * @return pointer to node of cityName, or NULL if not found
- * @see addCity, deleteCity
- */
+* Purpose: Search the network for the specified city and return a pointer to that node
+* @param cityName name of the city to look for in network
+* @return pointer to node of cityName, or NULL if not found
+* @see addCity, deleteCity
+*/
 city* CityNetwork::searchNetwork(string cityName) {
-    // TODO: implement this function.
-
-    // TODO: fix this return statement: should return
-    //   a pointer to the city if found.
-    return NULL;
-}
-
-/*
- * Purpose: deletes all cities in the network starting at the head city.
- * @param none
- * @return none
- */
-void CityNetwork::deleteEntireNetwork() {
-    // TODO: implement this function.
-
-        // required print statement:
-        //   print the city name as it's deleted, e.g.,
-        //cout << "deleting: " << ptr->name << endl;
-
-
-
-    cout << "Deleted network" << endl;
-}
-
-/*
- * Purpose: Transmit a message across the network to the
- *   receiver and increment count in each city it passes through
- * @param receiver name of the city to receive the message
- * @param message the message to send to the receiver
- * @return none
- */
-void CityNetwork::transmitMsg(string receiver, string message) {
-    // TODO: implement this function.
-
-    // if list is empty, print and return
-    if(head == NULL)
-    {
-        cout << "Empty list" << endl;
-        return;
-    }
-
-
-    // required print statement:
-    //   print the city, count of msgs, and message:
-    //   e.g., Denver [# messages passed: 2] received: hi
-        //cout << sender->name << " [# messages passed: " << sender->numberMessages << "] received: " << sender->message << endl;
-
-
-}
-
-/*
- * Purpose: prints the current list nicely
- * @param ptr head of list
- */
-void CityNetwork::printPath() {
-    cout << "== CURRENT PATH ==" << endl;
-
-    // TODO: traverse linked list and print path.
-    city* ptr = head;
-
-    if (head == NULL)
-    {
-        cout << "nothing in path" << endl;
-    }
-		else
+	// TODO: implement this function.
+	city * temp = head;
+	while(temp)
+	{
+		if(temp->name == cityName)
 		{
-			while(ptr)
-			{
-				cout << ptr->name << " -> "
-				if(!ptr->next)
-				{
-					cout << "NULL" << endl;
-				}
-				ptr = ptr->next;
-			}
+			break;
 		}
+		temp = temp->next;
+	}
+
+	// TODO: fix this return statement: should return
+	//   a pointer to the city if found.
+	return temp;
+}
+
+/*
+* Purpose: deletes all cities in the network starting at the head city.
+* @param none
+* @return none
+*/
+void CityNetwork::deleteEntireNetwork() {
+	// TODO: implement this function.
+	if(!head)
+	{
+		return;
+	}
+	while(head)
+	{
+		city * temp = head;
+		cout << "deleting: " << temp->name << endl;
+		head = head->next;
+		delete temp;
+	}
+	head = nullptr;
+	// required print statement:
+	//   print the city name as it's deleted, e.g.,
+	//cout << "deleting: " << ptr->name << endl;
 
 
 
-    cout << "===" << endl;
+	cout << "Deleted network" << endl;
+}
+
+/*
+* Purpose: Transmit a message across the network to the
+*   receiver and increment count in each city it passes through
+* @param receiver name of the city to receive the message
+* @param message the message to send to the receiver
+* @return none
+*/
+void CityNetwork::transmitMsg(string receiver, string message) {
+	// TODO: implement this function.
+
+	// if list is empty, print and return
+	if(head == NULL)
+	{
+		cout << "Empty list" << endl;
+		return;
+	}
+
+	city * temp = new city;
+	temp = head;
+	while(temp)
+	{
+		temp->message = message;
+		temp->numberMessages += 1;
+		cout << temp->name << " [# messages passed: " << temp->numberMessages << "] received: " << temp->message << endl;
+		if(temp->name == receiver)
+		{
+			return;
+		}
+		temp = temp->next;
+	}
+	// required print statement:
+	//   print the city, count of msgs, and message:
+	//   e.g., Denver [# messages passed: 2] received: hi
+	//cout << sender->name << " [# messages passed: " << sender->numberMessages << "] received: " << sender->message << endl;
+
+
+}
+
+/*
+* Purpose: prints the current list nicely
+* @param ptr head of list
+*/
+void CityNetwork::printPath() {
+	cout << "== CURRENT PATH ==" << endl;
+
+	// TODO: traverse linked list and print path.
+	city* ptr = head;
+
+	if (head == NULL)
+	{
+		cout << "nothing in path" << endl;
+	}
+	else
+	{
+		while(ptr)
+		{
+			cout << ptr->name << " -> ";
+			if(!ptr->next)
+			{
+				cout << " NULL" << endl;
+			}
+			ptr = ptr->next;
+		}
+	}
+
+
+
+	cout << "===" << endl;
 }
 
 
@@ -245,123 +325,123 @@ void CityNetwork::printPath() {
 /***************************************************************/
 
 /*
- * Purpose: handle the interaction with the user
- * @param CityNetwork to modify through menu actions
- * @return None
- * Do NOT modify
- */
+* Purpose: handle the interaction with the user
+* @param CityNetwork to modify through menu actions
+* @return None
+* Do NOT modify
+*/
 void handleUserInput(CityNetwork& cityNet)
 {
-    bool quit = false;
-    string s_input;
-    int input;
+	bool quit = false;
+	string s_input;
+	int input;
 
-    // loop until the user quits
-    while (!quit)
-    {
-        displayMenu();
+	// loop until the user quits
+	while (!quit)
+	{
+		displayMenu();
 
-        // read in input, assuming a number comes in
-        getline(cin, s_input);
-        try
-        {
-            input = stoi(s_input);
-        }
-        catch (exception& e)
-        {
-            // non-numeric input. trigger the default switch case.
-            input = 10;
-        }
+		// read in input, assuming a number comes in
+		getline(cin, s_input);
+		try
+		{
+			input = stoi(s_input);
+		}
+		catch (exception& e)
+		{
+			// non-numeric input. trigger the default switch case.
+			input = 10;
+		}
 
-        switch (input)
-        {
-            case 1:        // rebuild network
-                cityNet.loadDefaultSetup();
-                cityNet.printPath();
-                break;
+		switch (input)
+		{
+			case 1:        // rebuild network
+			cityNet.loadDefaultSetup();
+			cityNet.printPath();
+			break;
 
-            case 2:        // print path
-                cityNet.printPath();
-                break;
+			case 2:        // print path
+			cityNet.printPath();
+			break;
 
-            case 3: // message is read in from stdin
-                    // note: 'standard in' is the console by default
-              {
-                string cityReceiver;
-                cout << "Enter name of the city to receive the message: " << endl;
-                getline(cin, cityReceiver);
+			case 3: // message is read in from stdin
+			// note: 'standard in' is the console by default
+			{
+				string cityReceiver;
+				cout << "Enter name of the city to receive the message: " << endl;
+				getline(cin, cityReceiver);
 
-                cout << "Enter the message to send: " << endl;
-                string message;
-                getline(cin, message);
+				cout << "Enter the message to send: " << endl;
+				string message;
+				getline(cin, message);
 
-                cityNet.transmitMsg(cityReceiver, message);
-              }
-                break;
+				cityNet.transmitMsg(cityReceiver, message);
+			}
+			break;
 
-            case 4:       // add city
-              {
-                string newCityName;
-                string prevCityName;
-                cout << "Enter a new city name: " << endl;
-                getline(cin, newCityName);
+			case 4:       // add city
+			{
+				string newCityName;
+				string prevCityName;
+				cout << "Enter a new city name: " << endl;
+				getline(cin, newCityName);
 
-                cout << "Enter the previous city name (or First): " << endl;
-                getline(cin, prevCityName);
+				cout << "Enter the previous city name (or First): " << endl;
+				getline(cin, prevCityName);
 
-                // find the node containing prevCity
-                city *tmp = NULL;
-                if(prevCityName !="First")
-                {
-                    tmp = cityNet.searchNetwork(prevCityName);
-                }
-                cityNet.addCity(tmp, newCityName);
-                cityNet.printPath();
-              }
-                break;
+				// find the node containing prevCity
+				city *tmp = NULL;
+				if(prevCityName !="First")
+				{
+					tmp = cityNet.searchNetwork(prevCityName);
+				}
+				cityNet.addCity(tmp, newCityName);
+				cityNet.printPath();
+			}
+			break;
 
-            case 5:     // delete city
-              {
-                string city;
-                cout << "Enter a city name: " << endl;
-                getline(cin, city);
-                cityNet.deleteCity(city);
-                cityNet.printPath();
-              }
-                break;
+			case 5:     // delete city
+			{
+				string city;
+				cout << "Enter a city name: " << endl;
+				getline(cin, city);
+				cityNet.deleteCity(city);
+				cityNet.printPath();
+			}
+			break;
 
-            case 6:     // delete network
-                cityNet.deleteEntireNetwork();
-                break;
+			case 6:     // delete network
+			cityNet.deleteEntireNetwork();
+			break;
 
-            case 7:     // quit
-                quit = true;
-                cout << "Quitting... cleaning up path: " << endl;
-                break;
+			case 7:     // quit
+			quit = true;
+			cout << "Quitting... cleaning up path: " << endl;
+			break;
 
-            default:     // invalid input
-                cout << "Invalid Input" << endl;
-                break;
-        }
-    }
+			default:     // invalid input
+			cout << "Invalid Input" << endl;
+			break;
+		}
+	}
 }
 
 /*
- * Purpose: displays a menu with options
- * Do not modify.
- */
+* Purpose: displays a menu with options
+* Do not modify.
+*/
 void displayMenu()
 {
-    cout << endl;
-    cout << "Select a numerical option:" << endl;
-    cout << "+=====Main Menu=========+" << endl;
-    cout << " 1. Build Network " << endl;
-    cout << " 2. Print Network Path " << endl;
-    cout << " 3. Transmit Message " << endl;
-    cout << " 4. Add City " << endl;
-    cout << " 5. Delete City " << endl;
-    cout << " 6. Clear Network " << endl;
-    cout << " 7. Quit " << endl;
-    cout << "+-----------------------+" << endl;
-    cout << "#> ";
+	cout << endl;
+	cout << "Select a numerical option:" << endl;
+	cout << "+=====Main Menu=========+" << endl;
+	cout << " 1. Build Network " << endl;
+	cout << " 2. Print Network Path " << endl;
+	cout << " 3. Transmit Message " << endl;
+	cout << " 4. Add City " << endl;
+	cout << " 5. Delete City " << endl;
+	cout << " 6. Clear Network " << endl;
+	cout << " 7. Quit " << endl;
+	cout << "+-----------------------+" << endl;
+	cout << "#> ";
 }
