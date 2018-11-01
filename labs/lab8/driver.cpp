@@ -21,7 +21,6 @@ int main (int argc, char* argv[]){
   tree.addNode(2); //left child to 4
   // insert(tmp,4);
 
-
   tree.printTree();
   cout << endl << "There are " << tree.getSize() << " nodes in the tree" << endl;
   cout << "The minimum value node is:  " << tree.getMinValue() << endl;
@@ -47,7 +46,7 @@ int main (int argc, char* argv[]){
   tree.deleteNode(1);
   std::cout << "Remaining Tree :" << endl;
   tree.printTree();
-  
+
   tree.deleteNode(3);
   std::cout << "Remaining Tree :" << endl;
   tree.printTree();
