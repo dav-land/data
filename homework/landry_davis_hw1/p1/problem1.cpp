@@ -81,6 +81,7 @@ int insertIntoSortedArray(int myArray[], int numEntries, int newValue){
 			break;
 		}
 	}
+
 	for(j = numEntries-1; j >= i; j--){
 		myArray[j+1] = myArray[j];
 	}
