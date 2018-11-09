@@ -31,31 +31,31 @@ int main(int argc, char* argv[])
 			stringstream ss(data);
 			while(getline(ss,temp,','))
 			{
-				count ++;
+				count++;
 				switch (count)
 				{
-					case 1:
-					{
-						ranking = stoi(temp);
-					}
-					break;
+				case 1:
+				{
+					ranking = stoi(temp);
+				}
+				break;
 
-					case 2:
-					{
-						title = temp;
-					}
-					break;
+				case 2:
+				{
+					title = temp;
+				}
+				break;
 
-					case 3:
-					{
-						releaseYear = stoi(temp);
-					}
-					break;
+				case 3:
+				{
+					releaseYear = stoi(temp);
+				}
+				break;
 
-					case 4:
-					{
-						quantity = stoi(temp);
-					}
+				case 4:
+				{
+					quantity = stoi(temp);
+				}
 				}
 			}
 			movTree.addMovieNode(ranking,title,releaseYear,quantity);
@@ -94,55 +94,55 @@ void handleUserInput(MovieTree& movTree)
 
 		switch (input)
 		{
-			case 1:        // find a movie
-			{
-				string movieTitle;
-				cout << "Enter title:" << endl;
-				getline(cin, movieTitle);
+		case 1:           // find a movie
+		{
+			string movieTitle;
+			cout << "Enter title:" << endl;
+			getline(cin, movieTitle);
 
-				movTree.findMovie(movieTitle);
-			}
-			break;
+			movTree.findMovie(movieTitle);
+		}
+		break;
 
-			case 2:        //Rent a movie
-			{
-				string movieTitle;
-				cout << "Enter title:" << endl;
-				getline(cin, movieTitle);
+		case 2:           //Rent a movie
+		{
+			string movieTitle;
+			cout << "Enter title:" << endl;
+			getline(cin, movieTitle);
 
-				movTree.rentMovie(movieTitle);
-			}
-			break;
+			movTree.rentMovie(movieTitle);
+		}
+		break;
 
-			case 3:
-			{
-				movTree.printMovieInventory();
-			}
-			break;
+		case 3:
+		{
+			movTree.printMovieInventory();
+		}
+		break;
 
-			case 4: //delete movie
-			{
-				string movieTitle;
-				cout << "Enter title:" << endl;
-				getline(cin, movieTitle);
+		case 4:    //delete movie
+		{
+			string movieTitle;
+			cout << "Enter title:" << endl;
+			getline(cin, movieTitle);
 
-				movTree.deleteMovie(movieTitle);
-			}
-			break;
+			movTree.deleteMovie(movieTitle);
+		}
+		break;
 
-			case 5: //Count movies
-			{
-				movTree.countMovies();
-			}
-			break;
+		case 5:    //Count movies
+		{
+			movTree.countMovies();
+		}
+		break;
 
-			case 6:
-			{
-				quit = true;
-			}
-			break;
+		case 6:
+		{
+			quit = true;
+		}
+		break;
 
-			default:     // invalid input
+		default:        // invalid input
 			cout << "Invalid Input" << endl;
 			break;
 		}
@@ -150,9 +150,9 @@ void handleUserInput(MovieTree& movTree)
 }
 
 /*
-* Purpose: displays a menu with options
-* Do not modify.
-*/
+ * Purpose: displays a menu with options
+ * Do not modify.
+ */
 void displayMenu()
 {
 	cout << "======Main Menu======" << endl;

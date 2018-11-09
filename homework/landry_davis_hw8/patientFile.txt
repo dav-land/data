@@ -1,0 +1,11 @@
+Greg 10 100
+Tom 5 120
+Davis 9 40
+Jack 1 5
+Can 7 40
+Table 2 200
+Phone 4 20
+Tea 8 300
+Hello 3 50
+Foot 6 130
+He 4 32
