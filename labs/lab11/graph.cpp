@@ -30,20 +30,22 @@ void Graph::BFS_visit(int s, bool visited[]){
 	list<int> queue;
 	visited[s] = true;
 	queue.push_back(s);
-
+	cout << "in BFT\n";
 	while(!queue.empty()) {
 		s = queue.front();
 		cout << s;
 		queue.pop_front();
-		cout << " ";
+		cout << " ||" << adj[s].size() << "||";
 
 		for(auto node: adj[s]) {
 			if(!visited[node]) {
 				visited[node] = true;
 				queue.push_back(node);
 			}
+			cout << "|" <<node << "|";
 		}
 	}
+	cout << endl;
 }
 
 void Graph::BFS(int s)
